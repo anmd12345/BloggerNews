@@ -13,5 +13,10 @@ namespace BloggerNews.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public ActionResult H()
+        {
+            return View();
+        }
     }
 }
