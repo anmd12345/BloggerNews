@@ -83,3 +83,7 @@ D:\BloggerNews\obj\Debug\BloggerNews.csproj.CoreCompileInputs.cache
 D:\BloggerNews\obj\Debug\BloggerNews.csproj.CopyComplete
 D:\BloggerNews\obj\Debug\BloggerNews.dll
 D:\BloggerNews\obj\Debug\BloggerNews.pdb
+D:\GIT\TestClone\BloggerNews\obj\Debug\BloggerNews.csproj.AssemblyReference.cache
+D:\GIT\TestClone\BloggerNews\obj\Debug\BloggerNews.csproj.CoreCompileInputs.cache
+D:\GIT\TestClone\BloggerNews\obj\Debug\BloggerNews.dll
+D:\GIT\TestClone\BloggerNews\obj\Debug\BloggerNews.pdb
