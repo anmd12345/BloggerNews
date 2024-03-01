@@ -1,0 +1,1072 @@
+﻿@{
+    ViewBag.Title = "Mẹo lập trình";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Description = "";
+    ViewBag.Keyword = "";
+}
+@using BloggerNews.dao;
+@{
+    NewsDao NewsHighestViews = ViewBag.NewsHighestViews;
+    NewsDao NewsHighestShares = ViewBag.NewsHighestShares;
+    List<NewsDao> ListNewNews = ViewBag.ListNewNews;
+    List<NewsDao> ListNews = ViewBag.ListNews;
+
+    string FormatNumber (int number)
+    {
+        if (number >= 1000)
+        {
+            double formattedNumber = (double)number / 1000;
+            return $"{formattedNumber:N1}k";
+        }
+        else
+        {
+            return number.ToString();
+        }
+    }
+
+    List<NewsDao> ListCToDay = ViewBag.ListCToDay;
+
+    List<NewsDao> ListJavaToDay = ViewBag.ListJavaToDay;
+
+    List<NewsDao> ListJavascriptToDay = ViewBag.ListJavascriptToDay;
+
+    List<NewsDao> ListCShapToDay = ViewBag.ListCShapToDay;
+
+    List<NewsDao> ListRubyToDay = ViewBag.ListRubyToDay;
+
+    List<NewsDao> ListCssToDay = ViewBag.ListCssToDay;
+
+    List<NewsDao> ListPhpToDay = ViewBag.ListPhpToDay;
+
+    List<NewsDao> ListGoToDay = ViewBag.ListGoToDay;
+
+    List<NewsDao> ListSwiftToDay = ViewBag.ListSwiftToDay;
+
+    List<NewsDao> ListHtmlToDay = ViewBag.ListHtmlToDay;
+
+    List<NewsDao> ListPythonToDay = ViewBag.ListPythonToDay;
+}
+@if (NewsHighestViews != null)
+{
+    <!-- Main Post Section Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-lg-7 col-xl-8 mt-0">
+                    <div class="position-relative overflow-hidden rounded">
+                        <img src="~/assets/img/@NewsHighestViews.Background" class="img-fluid rounded img-zoomin w-100" alt="">
+                        <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style="bottom: 10px; left: 0;">
+                            <a href="#" class="text-white me-3 link-hover"><i class="fa fa-clock"></i> @NewsHighestViews.DateSubmited</a>
+                            <a href="#" class="text-white me-3 link-hover"><i class="fa fa-eye"></i> @FormatNumber(NewsHighestViews.View) lượt xem</a>
+                            <a href="/tin-tuc?tieude=@NewsHighestViews.Header#Comment" class="text-white me-3 link-hover"><i class="fa fa-comment-dots"></i> @NewsHighestViews.ListComment.Count bình luận</a>
+                            <a href="#" class="text-white link-hover"><i class="fa fa-arrow-up"></i> @FormatNumber(NewsHighestViews.Share) lượt chia sẻ</a>
+                        </div>
+                    </div>
+                    <div class="border-bottom py-3">
+                        <a href="/tin-tuc?tieude=@NewsHighestViews.Header" class="display-5 text-dark mb-0 link-hover">@NewsHighestViews.Header</a>
+                    </div>
+                    <style>
+                        #ViewContent {
+                            display: -webkit-box;
+                            -webkit-line-clamp: 9;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                        }
+                    </style>
+                    <div id="ViewContent" class="mt-3 mb-4">
+                        <p>@Html.Raw(NewsHighestViews.Content)</p>
+                    </div>
+                    <div class="bg-light p-4 rounded">
+                        <div class="news-2">
+                            <h3 class="mb-4">Tin tức hàng đầu</h3>
+                        </div>
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-6">
+                                <div class="rounded overflow-hidden">
+                                    <img src="~/assets/img/@NewsHighestShares.Background" class="img-fluid rounded img-zoomin w-100" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex flex-column">
+                                    <a href="/tin-tuc?tieude=@NewsHighestShares.Header" class="h3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">@NewsHighestShares.Header</a>
+                                    <p class="mb-0 fs-5"><i class="fa fa-clock"> @NewsHighestShares.DateSubmited</i> </p>
+                                    <p class="mb-0 fs-5"><i class="fa fa-eye"> @FormatNumber(NewsHighestShares.View) lượt xem</i></p>
+                                    <p class="mb-0 fs-5"><i class="fa fa-share"> @FormatNumber(NewsHighestShares.Share) lượt chia sẻ</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-4">
+                    <div class="bg-light rounded p-4 pt-0">
+                        <div class="row g-4">
+                            @for (int i = 0; i < ListNews.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="col-12">
+                                        <div class="rounded overflow-hidden">
+                                            <img src="~/assets/img/@ListNews[i].Background" class="img-fluid rounded img-zoomin w-100" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <a href="/tin-tuc?tieude=@ListNews[i].Header" class="h4 mb-2">@ListNews[i].Header</a>
+                                            <p class="fs-5 mb-0"><i class="fa fa-clock"> @ListNews[i].DateSubmited</i> </p>
+                                            <p class="fs-5 mb-0"><i class="fa fa-eye"> @FormatNumber(ListNews[i].View) lượt xem</i></p>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-12">
+                                        <div class="row g-4 align-items-center">
+                                            <div class="col-5">
+                                                <div class="overflow-hidden rounded">
+                                                    <img src="~/assets/img/@ListNews[i].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="col-7">
+                                                <div class="features-content d-flex flex-column">
+                                                    <a href="/tin-tuc?tieude=@ListNews[i].Header" class="h6">@ListNews[i].Header</a>
+                                                    <small><i class="fa fa-clock"></i> @ListNews[i].DateSubmited</small>
+                                                    <small><i class="fa fa-eye"></i> @FormatNumber(ListNews[i].View) lượt xem</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Post Section End -->
+    <!-- Latest News Start -->
+    <div class="container-fluid latest-news py-2">
+        <div class="container py-5">
+            <h2 class="mb-4">Tin tức mới nhất</h2>
+            <div class="latest-news-carousel owl-carousel">
+                @foreach (var item in ListNewNews)
+                {
+                    <div class="latest-news-item">
+                        <div class="bg-light rounded">
+                            <div class="rounded-top overflow-hidden">
+                                <img style="height: 183px; width: 305px" src="~/assets/img/@item.Background" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                            </div>
+                            <div class="d-flex flex-column p-4">
+                                <a href="/tin-tuc?tieude=@item.Header" class="h4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">@item.Header </a>
+                                <div class="d-flex justify-content-between">
+                                    <a class="small text-body link-hover">đăng bởi @item.Author</a>
+                                    <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @item.DateSubmited</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Latest News End -->
+    <!-- Most Populer News Start -->
+    <div class="container-fluid populer-news py-5">
+        <div class="container py-5">
+            <div class="tab-class mb-4">
+                <div class="row g-4">
+                    <div class="col-lg-8 col-xl-9">
+                        <div class="d-flex flex-column flex-md-row justify-content-md-between border-bottom mb-4">
+                            <h1 class="mb-4">Có gì mới hôm nay?</h1>
+                            <ul class="nav nav-pills d-inline-flex text-center">
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill" href="#c">
+                                        <span class="text-dark" style="width: 100px;">C/C++</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#java">
+                                        <span class="text-dark" style="width: 100px;">Java</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#cshap">
+                                        <span class="text-dark" style="width: 100px;">C#</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#javascript">
+                                        <span class="text-dark" style="width: 100px;">Javascript</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#go">
+                                        <span class="text-dark" style="width: 100px;">Go</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#python">
+                                        <span class="text-dark" style="width: 100px;">Python</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#php">
+                                        <span class="text-dark" style="width: 100px;">Php</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#css">
+                                        <span class="text-dark" style="width: 100px;">Css</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#html">
+                                        <span class="text-dark" style="width: 100px;">Html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill me-2" data-bs-toggle="pill" href="#swift">
+                                        <span class="text-dark" style="width: 100px;">Swift</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content mb-4">
+                            <div id="c" class="tab-pane fade show p-0 active">
+                                <div class="row g-4">
+                                    @if (ListCToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về C/C++
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListCToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListCToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListCToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListCToDay[j].Header" class="h4">@ListCToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListCToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListCToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListCToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListCToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListCToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListCToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListCToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListCToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListCToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListCToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListCToDay[k].Header" class="h6">@ListCToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListCToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về thời sự sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="java" class="tab-pane fade show p-0">
+                                <div class="row g-4">
+                                    @if (ListJavaToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Java
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListJavaToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListJavaToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListJavaToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListJavaToDay[j].Header" class="h4">@ListJavaToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListJavaToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListJavaToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListJavaToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListJavaToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListJavaToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListJavaToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListJavaToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListJavaToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListJavaToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListJavaToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListJavaToDay[k].Header" class="h6">@ListJavaToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListJavaToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Công nghệ sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="javascript" class="tab-pane fade show p-0">
+                                <div class="row g-4">
+                                    @if (ListJavascriptToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Javascript
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListJavascriptToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListJavascriptToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListJavascriptToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListJavascriptToDay[j].Header" class="h4">@ListJavascriptToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListJavascriptToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListJavascriptToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListJavascriptToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListJavascriptToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListJavascriptToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListJavascriptToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListJavascriptToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListJavascriptToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListJavascriptToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListJavascriptToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListJavascriptToDay[k].Header" class="h6">@ListJavascriptToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListJavascriptToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Lập trình sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="python" class="tab-pane fade show p-0">
+                                <div class="row g-4">
+                                    @if (ListPythonToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Python
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListPythonToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListPythonToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListPythonToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListPythonToDay[j].Header" class="h4">@ListPythonToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListPythonToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListPythonToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListPythonToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListPythonToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListPythonToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListPythonToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListPythonToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListPythonToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListPythonToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListPythonToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListPythonToDay[k].Header" class="h6">@ListPythonToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListPythonToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Ẩm trình sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="cshap" class="tab-pane fade show p-0">
+                                <div class="row g-4">
+                                    @if (ListCShapToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về C#
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListCShapToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListCShapToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListCShapToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListCShapToDay[j].Header" class="h4">@ListCShapToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListCShapToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListCShapToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListCShapToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListCShapToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListCShapToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListCShapToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListCShapToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListCShapToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListCShapToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListCShapToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListCShapToDay[k].Header" class="h6">@ListCShapToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListCShapToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Ẩm trình sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="php" class="tab-pane fade show p-0 ">
+                                <div class="row g-4">
+                                    @if (ListPhpToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Php
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListPhpToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListPhpToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListPhpToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListPhpToDay[j].Header" class="h4">@ListPhpToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListPhpToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListPhpToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListPhpToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListPhpToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListPhpToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListPhpToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListPhpToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListPhpToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListPhpToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListPhpToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListPhpToDay[k].Header" class="h6">@ListPhpToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListPhpToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Showbiz Việt sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="css" class="tab-pane fade show p-0 ">
+                                <div class="row g-4">
+                                    @if (ListCssToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Css
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListCssToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListCssToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListCssToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListCssToDay[j].Header" class="h4">@ListCssToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListCssToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListCssToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListCssToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListCssToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListCssToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListCssToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListCssToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListCssToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListCssToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListCssToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListCssToDay[k].Header" class="h6">@ListCssToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListCssToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Âm nhạc sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="html" class="tab-pane fade show p-0 ">
+                                <div class="row g-4">
+                                    @if (ListHtmlToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Html
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListHtmlToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListHtmlToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListHtmlToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListHtmlToDay[j].Header" class="h4">@ListHtmlToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListHtmlToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListHtmlToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListHtmlToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListHtmlToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListHtmlToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListHtmlToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListHtmlToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListHtmlToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListHtmlToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListHtmlToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListHtmlToDay[k].Header" class="h6">@ListHtmlToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListHtmlToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Mẹo vặt sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="go" class="tab-pane fade show p-0 ">
+                                <div class="row g-4">
+                                    @if (ListGoToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Go
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListGoToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListGoToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListGoToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListGoToDay[j].Header" class="h4">@ListGoToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListGoToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListGoToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListGoToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListGoToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListGoToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListGoToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListGoToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListGoToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListGoToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListGoToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListGoToDay[k].Header" class="h6">@ListGoToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListGoToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Văn hóa sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div id="swift" class="tab-pane fade show p-0 ">
+                                <div class="row g-4">
+                                    @if (ListSwiftToDay.Count == 0)
+                                    {
+                                        <div class="col-lg-8">
+                                            <p class="my-4 text-100 text-center fw-bold">
+                                                Hiện chưa có tin nào về Swift
+                                            </p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < ListSwiftToDay.Count; j++)
+                                        {
+                                            <div class="col-lg-8">
+                                                <div class="position-relative rounded overflow-hidden">
+                                                    <img src="~/assets/img/@ListSwiftToDay[j].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded" style="top: 20px; right: 20px;">
+                                                        @ListSwiftToDay[j].TypeNews
+                                                    </div>
+                                                </div>
+                                                <div class="my-4">
+                                                    <a href="/tin-tuc?tieude=@ListSwiftToDay[j].Header" class="h4">@ListSwiftToDay[j].Header</a>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> @ListSwiftToDay[j].DateSubmited</a>
+                                                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> @FormatNumber(ListSwiftToDay[j].View) lượt xem</a>
+                                                    <a href="/tin-tuc?tieude=@ListSwiftToDay[j].Header#Comment" class="text-dark link-hover me-3"><i class="fa fa-comment-dots"></i> @ListSwiftToDay[j].ListComment.Count bình luận</a>
+                                                    <a href="#" class="text-dark link-hover"><i class="fa fa-arrow-up"></i> @ListSwiftToDay[j].Share lượt chia sẻ</a>
+                                                </div>
+                                                <div id="ViewContent" class="mt-3 mb-4">
+                                                    <p>@Html.Raw(ListSwiftToDay[j].Content)</p>
+                                                </div>
+                                            </div>
+                                            break;
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="row g-4">
+                                                @if (ListSwiftToDay.Count > 1)
+                                                {
+                                                    for (int k = 0; k < ListSwiftToDay.Count; ++k)
+                                                    {
+                                                        if (k != 0)
+                                                        {
+                                                            <div class="col-12">
+                                                                <div class="row g-4 align-items-center">
+                                                                    <div class="col-5">
+                                                                        <div class="overflow-hidden rounded">
+                                                                            <img src="~/assets/img/@ListSwiftToDay[k].Background" class="img-zoomin img-fluid rounded w-100" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-7">
+                                                                        <div class="features-content d-flex flex-column">
+                                                                            <p class="text-uppercase mb-2">@ListSwiftToDay[k].TypeNews</p>
+                                                                            <a href="/tin-tuc?tieude=@ListSwiftToDay[k].Header" class="h6">@ListSwiftToDay[k].Header</a>
+                                                                            <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @ListSwiftToDay[k].DateSubmited</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-12">
+                                                        <div class="row g-4 align-items-center">
+                                                            <div class="col-12">
+                                                                <p class="text-uppercase mb-2">Các tin khác về Thể thao sẽ sớm được cập nhật</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-bottom mb-4">
+                            <h2 class="my-4">Tin tức xem nhiều nhất</h2>
+                        </div>
+                        <div class="whats-carousel owl-carousel">
+                            @foreach (var item in ListNewNews)
+                            {
+                                <div class="whats-item">
+                                    <div class="bg-light rounded">
+                                        <div class="rounded-top overflow-hidden">
+                                            <img style="width: 471px; height: 282px" src="~/assets/img/@item.Background" class="img-zoomin img-fluid rounded-top w-100" alt="">
+                                        </div>
+                                        <div class="d-flex flex-column p-4">
+                                            <a href="/tin-tuc?tieude=@item.Header" class="h4" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">@item.Header</a>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="#" class="small text-body link-hover">Đăng bởi @item.Author</a>
+                                                <small class="text-body d-block"><i class="fas fa-calendar-alt me-1"></i> @item.DateSubmited</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xl-3">
+                        @Html.Action("FeedPartial", "Partial")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-100 text-center text-danger fw-bold">Hiện quản trị viên đang cập nhật dữ liệu cho website. Xin lỗi vì sự bất tiện này 😢😢</p>
+}
+
+
+
