@@ -1,0 +1,136 @@
+﻿@using BloggerNews.dao;
+@{
+    List<CurrentTypeNewsDao> ListCurrentTypeNewsDao = ViewBag.ListCurrentTypeNewsDao;
+}
+<script>
+    function updateClock() {
+        var currentTime = new Date();
+        var hours = currentTime.getHours();
+        var minutes = currentTime.getMinutes();
+        var seconds = currentTime.getSeconds();
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+        var formattedTime = hours + ":" + minutes + ":" + seconds;
+
+        var day = currentTime.getDate();
+        var month = currentTime.getMonth() + 1;
+        var year = currentTime.getFullYear();
+        var dayOfWeek = currentTime.getDay();
+        var daysOfWeek = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+        var formattedDate = daysOfWeek[dayOfWeek] + ", " + day + "/" + month + "/" + year;
+        $('#date').html(formattedDate);
+        $('#date1').html(formattedDate);
+        $('#clock').html(formattedTime);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+
+<!-- Navbar start -->
+<div class="container-fluid sticky-top px-0">
+    <div class="container-fluid topbar bg-dark d-none d-lg-block">
+        <div class="container px-0">
+            <div class="topbar-top d-flex justify-content-between flex-lg-wrap">
+                <div class="top-info flex-grow-0">
+                    <span class="rounded-circle btn-sm-square bg-primary me-2">
+                        <i class="fas fa-bolt text-white"></i>
+                    </span>
+                    <div class="pe-2 me-3 border-end border-white d-flex align-items-center">
+                        <p class="mb-0 text-white fs-6 fw-normal">Mẹo Lập Trình</p>
+                    </div>
+                    <div class="overflow-hidden" style="width: 735px;">
+                        <div id="note" class="ps-2">
+                            <img src="~/assets/img/chatGPT-1.jpg" class="img-fluid rounded-circle border border-3 border-primary me-2" style="width: 30px; height: 30px;" alt="">
+                            <a href="#"><p class="text-white mb-0 link-hover">Chào mừng bạn đã đến với Tin tức Việt</p></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-link flex-lg-wrap">
+                    <i class="fas fa-calendar-alt text-white border-end border-secondary pe-2 me-2"> <span class="text-body" id="date"></span> - <span class="text-body" id="clock"></span></i>
+                    <div class="d-flex icon">
+                        <p class="mb-0 text-white me-2">Follow Us:</p>
+                        <a href="" class="me-2"><i class="fab fa-facebook-f text-body link-hover"></i></a>
+                        <a href="" class="me-2"><i class="fab fa-twitter text-body link-hover"></i></a>
+                        <a href="" class="me-2"><i class="fab fa-instagram text-body link-hover"></i></a>
+                        <a href="" class="me-2"><i class="fab fa-youtube text-body link-hover"></i></a>
+                        <a href="" class="me-2"><i class="fab fa-linkedin-in text-body link-hover"></i></a>
+                        <a href="" class="me-2"><i class="fab fa-skype text-body link-hover"></i></a>
+                        <a href="" class=""><i class="fab fa-pinterest-p text-body link-hover"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-light">
+        <div class="container px-0">
+            <nav class="navbar navbar-light navbar-expand-xl">
+                <img width="150" height="98" src="~/logo.png" />
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto border-top">
+                        <a href="/tin-tuc-viet" class="nav-item nav-link @((Session["Category"] as string) == "Trang chủ" ? "active" : "")">Trang chủ</a>
+                        @foreach (var item in ListCurrentTypeNewsDao)
+                        {
+                            if (item.CurrentTypeNewsDescription == "None")
+                            {
+                                foreach (var c in item.ListSubTypeNews)
+                                {
+                                    <a href="/bai-viet?c=@HttpUtility.UrlEncode(c.TypeNews)" class="nav-item nav-link @((Session["Category"] as string) == c.TypeNews ? "active" : "")">@c.TypeNews</a>
+                                }
+                            }
+                            else
+                            {
+                                <div class="nav-item dropdown">
+                                    <a style="cursor: pointer" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">@item.CurrentTypeNewsDescription</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        @foreach (var c in item.ListSubTypeNews)
+                                        {
+                                            <a href="/bai-viet?c=@HttpUtility.UrlDecode(c.TypeNews)" class="dropdown-item @((Session["Category"] as string) == c.TypeNews.ToString() ? "active" : "")">@c.TypeNews</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="d-flex flex-nowrap pb-2 pt-xl-0">
+                        <div class="d-flex">
+                            <img src="~/assets/img/weather-icon.png" class="img-fluid w-100 me-2" alt="">
+                            <div class="d-flex align-items-center">
+                                <strong class="fs-4 text-secondary">31°C</strong>
+                                <div class="d-flex flex-column ms-2" style="width: 150px;">
+                                    <span class="text-body">VIET NAM,</span>
+                                    <small><span id="date1"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-search btn border border-primary btn-md-square rounded-circle bg-white my-auto" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+<!-- Modal Search Start -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <div class="input-group w-75 mx-auto d-flex">
+                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Search End -->

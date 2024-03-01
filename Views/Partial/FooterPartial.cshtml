@@ -1,0 +1,169 @@
+﻿@using BloggerNews.dao;
+@{
+
+    UserDao CurrentUser = Session["CurrentUser"] as UserDao;
+    List<TypeNewsDao> ListTypeNews = ViewBag.ListTypeNews;
+}
+<!-- Most Populer News End -->
+<!-- Footer Start -->
+<div class="container-fluid bg-dark footer py-5">
+    <div class="container py-5">
+        <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="row g-4">
+                <div class="col-lg-3">
+                    <img width="200" height="98" src="~/logo.png" />
+                </div>
+                <div class="col-lg-9">
+                    <div class="d-flex position-relative rounded-pill overflow-hidden">
+                        <input class="form-control border-0 w-100 py-3 rounded-pill" type="email" value="" placeholder="example@gmail.com">
+                        <button type="submit" class="btn btn-primary border-0 py-3 px-5 rounded-pill text-white position-absolute" style="top: 0; right: 0;">Nhận thông báo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-6 col-xl-6">
+                <div class="footer-item-1">
+                    <h4 class="mb-4 text-white">Liên lạc</h4>
+                    <p class="text-secondary line-h">Địa chỉ: <span class="text-white">Ngõ 168, Đường Kim Giang, Đại Kim, Hoàng Mai, Hà Nội </span></p>
+                    <p class="text-secondary line-h">Email: <span class="text-white">anvohoang98@gmail.com</span></p>
+                    <p class="text-secondary line-h">Số điện thoại: <span class="text-white">0397.098.803</span></p>
+                    <div class="d-flex line-h">
+                        <a class="btn btn-light me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter text-dark"></i></a>
+                        <a class="btn btn-light me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f text-dark"></i></a>
+                        <a class="btn btn-light me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube text-dark"></i></a>
+                        <a class="btn btn-light btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in text-dark"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-6">
+                <div class="d-flex flex-column text-start footer-item-3" style="margin: 0 auto">
+                    <h4 class="mb-4 text-white" style="margin-left: 100px">Danh mục</h4>
+                    @for (int i = 0; i < ListTypeNews.Count - 1; i++)
+                    {
+                        <div class="d-flex bg-200 mb-2">
+                            <div class="col-6">
+                                <a class="btn-link text-white"  href="/bai-viet?c=@HttpUtility.UrlEncode(ListTypeNews[i].TypeNews)"><i class="fas fa-angle-right text-white me-2"></i> @ListTypeNews[i].TypeNews</a>
+                            </div>
+                            @{
+                                i = i + 1;
+                            }
+                            <div class="col-6">
+                                <a class="btn-link text-white" href="/bai-viet?c=@HttpUtility.UrlEncode(ListTypeNews[i].TypeNews)"><i class="fas fa-angle-right text-white me-2"></i> @ListTypeNews[i].TypeNews</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+<!-- Copyright Start -->
+<div class="container-fluid copyright bg-dark py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <span class="text-light"><a><i class="fas fa-eye text-light me-2"></i>Lượt truy cập trang: </a>@ViewBag.Visits lượt</span>
+            </div>
+            <div class="col-md-6 my-auto text-center text-md-end text-white">
+                @if (CurrentUser == null)
+                {
+
+
+                    <a class="text-primary" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
+                }
+                else
+                {
+                    <a>Bạn đang đăng nhập với quyền của: @CurrentUser.Username | </a> <a href="/User/Logout">Đăng xuất</a><span> | </span><a href="/Admin/Dashboard/Index">Quản trị</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Copyright End -->
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary border-2 border-white rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- Modal Login Start -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="authentication-modal-label" aria-hidden="true">
+    <div class="modal-dialog mt-6" role="document">
+        <div class="modal-content border-0">
+            <div class="modal-header px-5 position-relative modal-shape-header bg-shape">
+                <div class="position-relative z-1">
+                    <h4 class="mb-0 text-secondary" id="authentication-modal-label">ĐĂNG NHẬP</h4>
+                </div><button class="btn-close position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4 px-5">
+                <div>
+                    <div class="mb-3">
+                        <label class="form-label" for="modal-auth-username">Tên đăng nhập</label>
+                        <input class="form-control" type="text" autocomplete="on" id="modal-auth-username" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="modal-auth-password">Mật khẩu</label>
+                        <input class="form-control" type="password" autocomplete="on" id="modal-auth-password" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="modal-auth-register-checkbox" />
+                        <label class="form-label" for="modal-auth-register-checkbox">Lưu thông tin</label>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary d-block w-100 mt-3" onclick="Login()" type="button" name="submit">Đăng nhập</button>
+                    </div>
+                    <div class="mb-3">
+                        <span class="d-block w-100 mt-3 text-danger" id="ErrorMessage"></span>
+                    </div>
+                </div>
+                <div class="position-relative mt-5">
+                    <hr />
+                    <div class="divider-content-center">hoặc đăng nhập bằng</div>
+                </div>
+                <div class="row g-2 mt-2">
+                    <div class="col-sm-6">
+                        <a class="btn btn-outline-google-plus btn-sm d-block w-100" href="#">
+                            <span class="text-danger fab fa-google-plus-g me-2" data-fa-transform="grow-8"></span> google
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-outline-facebook btn-sm d-block w-100" href="#">
+                            <span class="text-primary fab fa-facebook-square me-2" data-fa-transform="grow-8"></span> facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Login End -->
+
+<script>
+    function Login()
+    {
+        var username = $('#modal-auth-username').val();
+        var password = $('#modal-auth-password').val();
+        var url = '@Url.Action("Login", "User")';
+        var type = 'POST';
+        var data = { 'username': username, 'password': password };
+
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (response) {
+                var DataResponse = JSON.parse(response);
+                if (DataResponse == "NotFound") {
+                    $('#ErrorMessage').html('Thông tin đăng nhập không đúng!');
+                } else {
+                    window.location.href = '/Home/Index';
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+
+    }
+</script>
