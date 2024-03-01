@@ -7,7 +7,9 @@ namespace BloggerNews.Dao
 {
     public class UserDao
     {
-        private string username;
-        private string email;
+        public int Id;
+        public string Username;
+        public string Password;
+        public string RoleDescription;
     }
 }
