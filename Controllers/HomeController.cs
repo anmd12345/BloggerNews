@@ -1,5 +1,5 @@
-﻿using BloggerNews.dao;
-using BloggerNews.service;
+﻿using BloggerNews.Dao;
+using BloggerNews.Service;
 using System;
 using System.Collections.Generic;
 using System.IO;
